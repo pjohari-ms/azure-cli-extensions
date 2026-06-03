@@ -436,9 +436,8 @@ def load_arguments(self, _):
         c.argument('database_id', options_list=['--db-name', '-d'], help='Database Name')
 
     with self.argument_context('cosmosdb keys regenerate') as c:
-        c.argument('account_name', account_name_type, id_part=None)
         c.argument('key_kind', arg_type=get_enum_type(KeyKind), help="The access key to regenerate.")
-        c.argument('skip_account_keys_last_usage_check', options_list=['--skip-account-keys-last-usage-check'], arg_type=get_three_state_flag(), is_preview=True, help="Skip the account keys last usage check that blocks key regeneration when the key was recently used.")
+        c.argument('skip_account_keys_last_usage_check', options_list=['--skip-account-keys-last-usage-check', '--skip-usage-check'], arg_type=get_three_state_flag(), is_preview=True, help="Skip the account keys last usage check that blocks key regeneration when the key was recently used.")
 
     # CosmosDB account create with gremlin and tables to restore
     with self.argument_context('cosmosdb create') as c:
