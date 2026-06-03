@@ -1844,3 +1844,20 @@ helps['cosmosdb fleet analytics delete'] = """
 type: command
 short-summary: Delete a Fleet Analytics resource from a Fleet.
 """
+
+helps['cosmosdb keys regenerate'] = """
+type: command
+short-summary: Regenerate an access key for a Azure Cosmos DB database account.
+parameters:
+  - name: --key-kind
+    short-summary: The access key to regenerate.
+  - name: --skip-account-keys-last-usage-check
+    short-summary: Skip the account keys last usage check that blocks key regeneration when the key was recently used.
+examples:
+  - name: Regenerate an access key for a Azure Cosmos DB database account.
+    text: |
+      az cosmosdb keys regenerate --resource-group MyResourceGroup --name MyAccount --key-kind primary
+  - name: Regenerate an access key, skipping the account keys last usage check.
+    text: |
+      az cosmosdb keys regenerate --resource-group MyResourceGroup --name MyAccount --key-kind primary --skip-account-keys-last-usage-check true
+"""

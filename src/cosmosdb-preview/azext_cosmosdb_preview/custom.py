@@ -28,6 +28,7 @@ from azext_cosmosdb_preview.vendored_sdks.azure_mgmt_cosmosdb.models import (
     ContinuousModeProperties,
     DatabaseAccountCreateUpdateParameters,
     MergeParameters,
+    DatabaseAccountRegenerateKeyParameters,
     RetrieveThroughputParameters,
     RetrieveThroughputPropertiesResource,
     PhysicalPartitionId,
@@ -1355,6 +1356,18 @@ def cli_cosmosdb_list(client, resource_group_name=None):
         return client.list_by_resource_group(resource_group_name)
 
     return client.list()
+
+
+def cli_cosmosdb_keys_regenerate(client,
+                                 resource_group_name,
+                                 account_name,
+                                 key_kind,
+                                 skip_account_keys_last_usage_check=None):
+    """ Regenerates an access key for a Azure Cosmos DB database account. """
+    key_to_regenerate = DatabaseAccountRegenerateKeyParameters(
+        key_kind=key_kind,
+        skip_account_keys_last_usage_check=skip_account_keys_last_usage_check)
+    return client.begin_regenerate_key(resource_group_name, account_name, key_to_regenerate)
 
 
 # latest restorable timestamp for gremlin graph and table
