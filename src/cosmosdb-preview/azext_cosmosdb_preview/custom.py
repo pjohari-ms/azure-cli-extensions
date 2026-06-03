@@ -1837,12 +1837,6 @@ def cli_begin_mongo_db_database_partition_merge(client,
     return async_partition_merge_result.result()
 
 
-def _handle_exists_exception(http_response_error):
-    if http_response_error.status_code == 404:
-        return False
-    raise http_response_error
-
-
 def process_restorable_databases(restorable_databases, database_name):
     latest_database_delete_time = datetime.datetime.utcfromtimestamp(0)
     latest_database_create_or_recreate_time = datetime.datetime.utcfromtimestamp(0)
