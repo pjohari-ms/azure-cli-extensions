@@ -1851,7 +1851,7 @@ short-summary: Regenerate an access key for a Azure Cosmos DB database account.
 parameters:
   - name: --key-kind
     short-summary: The access key to regenerate.
-  - name: --skip-account-keys-last-usage-check --skip-usage-check
+  - name: --skip-safe-rotation
     short-summary: Skip the account keys last usage check that blocks key regeneration when the key was recently used.
 examples:
   - name: Regenerate an access key for a Azure Cosmos DB database account.
@@ -1859,5 +1859,5 @@ examples:
       az cosmosdb keys regenerate --resource-group MyResourceGroup --name MyAccount --key-kind primary
   - name: Regenerate an access key, skipping the account keys last usage check.
     text: |
-      az cosmosdb keys regenerate --resource-group MyResourceGroup --name MyAccount --key-kind primary --skip-account-keys-last-usage-check true
+      az cosmosdb keys regenerate --resource-group MyResourceGroup --name MyAccount --key-kind primary --skip-safe-rotation true
 """
