@@ -6177,6 +6177,9 @@ class DatabaseAccountRegenerateKeyParameters(_serialization.Model):
     :ivar key_kind: The access key to regenerate. Required. Known values are: "primary",
      "secondary", "primaryReadonly", and "secondaryReadonly".
     :vartype key_kind: str or ~azure.mgmt.cosmosdb.models.KeyKind
+    :ivar skip_account_keys_last_usage_check: Whether to skip the account keys last usage check
+     that blocks key regeneration when the key was recently used.
+    :vartype skip_account_keys_last_usage_check: bool
     """
 
     _validation = {
@@ -6185,16 +6188,27 @@ class DatabaseAccountRegenerateKeyParameters(_serialization.Model):
 
     _attribute_map = {
         "key_kind": {"key": "keyKind", "type": "str"},
+        "skip_account_keys_last_usage_check": {"key": "SkipAccountKeysLastUsageCheck", "type": "bool"},
     }
 
-    def __init__(self, *, key_kind: Union[str, "_models.KeyKind"], **kwargs: Any) -> None:
+    def __init__(
+        self,
+        *,
+        key_kind: Union[str, "_models.KeyKind"],
+        skip_account_keys_last_usage_check: Optional[bool] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword key_kind: The access key to regenerate. Required. Known values are: "primary",
          "secondary", "primaryReadonly", and "secondaryReadonly".
         :paramtype key_kind: str or ~azure.mgmt.cosmosdb.models.KeyKind
+        :keyword skip_account_keys_last_usage_check: Whether to skip the account keys last usage
+         check that blocks key regeneration when the key was recently used.
+        :paramtype skip_account_keys_last_usage_check: bool
         """
         super().__init__(**kwargs)
         self.key_kind = key_kind
+        self.skip_account_keys_last_usage_check = skip_account_keys_last_usage_check
 
 
 class DatabaseAccountsListResult(_serialization.Model):
