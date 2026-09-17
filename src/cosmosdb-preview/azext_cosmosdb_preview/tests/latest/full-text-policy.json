@@ -1,0 +1,37 @@
+{
+  "defaultLanguage": "en-US",
+  "package": "standard",
+  "defaultSpec": {
+    "language": "en-US",
+    "tokenizer": "word",
+    "filters": [
+      "lowercase",
+      "stop"
+    ],
+    "stopWordListKind": "basic",
+    "addStopWords": [
+      "cosmos"
+    ],
+    "removeStopWords": [
+      "is",
+      "the"
+    ]
+  },
+  "fullTextPaths": [
+    {
+      "path": "/description",
+      "language": "en-US",
+      "tokenizer": "word",
+      "filters": [
+        "lowercase"
+      ],
+      "stopWordListKind": "basic",
+      "addStopWords": [
+        "cosmos"
+      ],
+      "removeStopWords": [
+        "is"
+      ]
+    }
+  ]
+}
