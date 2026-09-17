@@ -573,6 +573,8 @@ examples:
     text: az cosmosdb update --name MyCosmosDBDatabaseAccount --resource-group MyResourceGroup --soft-delete-config '{"softDeletionEnabled":true,"softDeleteRetentionPeriodInMinutes":1440,"minMinutesBeforePermanentDeletionAllowed":60}'
   - name: Configure soft deletion on the account from a JSON file.
     text: az cosmosdb update --name MyCosmosDBDatabaseAccount --resource-group MyResourceGroup --soft-delete-config @soft-delete-config.json
+  - name: Enable the integrated embedding generator after configuring its account prerequisites.
+    text: az cosmosdb update --name MyCosmosDBDatabaseAccount --resource-group MyResourceGroup --enable-embedding-generator true
 """
 
 # restore account
