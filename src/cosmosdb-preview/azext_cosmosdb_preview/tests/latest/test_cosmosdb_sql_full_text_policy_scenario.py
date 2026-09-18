@@ -26,25 +26,21 @@ class CosmosDBSqlFullTextPolicyScenarioTest(ScenarioTest):
 
         self.cmd('cosmosdb create -g {rg} -n {account}')
         self.cmd('cosmosdb sql database create -g {rg} -a {account} -n {database}')
-        self.cmd(
+        container_create = self.cmd(
             'cosmosdb sql container create -g {rg} -a {account} -d {database} '
-            '-n {container} -p /partitionKey --full-text-policy @{policy}',
-            checks=[
-                self.check('resource.fullTextPolicy.package', 'standard'),
-                self.check('resource.fullTextPolicy.defaultSpec.tokenizer', 'word'),
-                self.check('resource.fullTextPolicy.fullTextPaths[0].filters[0]', 'lowercase'),
-            ])
-        self.cmd(
+            '-n {container} -p /partitionKey --full-text-policy @{policy}').get_output_in_json()
+        assert container_create['resource']['fullTextPolicy']['package'] == 'standard'
+        assert container_create['resource']['fullTextPolicy']['defaultSpec']['tokenizer'] == 'word'
+        assert container_create['resource']['fullTextPolicy']['fullTextPaths'][0]['filters'][0] == 'lowercase'
+
+        container_update = self.cmd(
             'cosmosdb sql container update -g {rg} -a {account} -d {database} '
-            '-n {container} --full-text-policy @{policy}',
-            checks=[
-                self.check('resource.fullTextPolicy.defaultSpec.stopWordListKind', 'basic'),
-                self.check('resource.fullTextPolicy.fullTextPaths[0].addStopWords[0]', 'cosmos'),
-            ])
-        self.cmd(
-            'cosmosdb sql container show -g {rg} -a {account} -d {database} -n {container}',
-            checks=[
-                self.check('resource.fullTextPolicy.package', 'standard'),
-                self.check('resource.fullTextPolicy.fullTextPaths[0].tokenizer', 'word'),
-            ],
-        )
+            '-n {container} --full-text-policy @{policy}').get_output_in_json()
+        assert container_update['resource']['fullTextPolicy']['defaultSpec']['stopWordListKind'] == 'basic'
+        assert container_update['resource']['fullTextPolicy']['fullTextPaths'][0]['addStopWords'][0] == 'cosmos'
+
+        container_show = self.cmd(
+            'cosmosdb sql container show -g {rg} -a {account} -d {database} '
+            '-n {container}').get_output_in_json()
+        assert container_show['resource']['fullTextPolicy']['package'] == 'standard'
+        assert container_show['resource']['fullTextPolicy']['fullTextPaths'][0]['tokenizer'] == 'word'
