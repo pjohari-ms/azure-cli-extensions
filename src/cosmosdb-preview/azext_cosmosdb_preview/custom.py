@@ -1504,7 +1504,8 @@ def cli_cosmosdb_sql_container_create(client,
                                       unique_key_policy=None,
                                       conflict_resolution_policy=None,
                                       analytical_storage_ttl=None,
-                                      materialized_view_definition=None):
+                                      materialized_view_definition=None,
+                                      full_text_policy=None):
     """Creates an Azure Cosmos DB SQL container """
     sql_container_resource = SqlContainerResource(id=container_name)
 
@@ -1517,7 +1518,8 @@ def cli_cosmosdb_sql_container_create(client,
                                        partition_key_version,
                                        conflict_resolution_policy,
                                        analytical_storage_ttl,
-                                       materialized_view_definition)
+                                       materialized_view_definition,
+                                       full_text_policy)
 
     options = _get_options(throughput, max_throughput)
 
@@ -1541,9 +1543,10 @@ def _populate_sql_container_definition(sql_container_resource,
                                        partition_key_version,
                                        conflict_resolution_policy,
                                        analytical_storage_ttl,
-                                       materialized_view_definition):
+                                       materialized_view_definition,
+                                       full_text_policy):
     if all(arg is None for arg in
-           [partition_key_path, partition_key_version, default_ttl, indexing_policy, unique_key_policy, client_encryption_policy, conflict_resolution_policy, analytical_storage_ttl, materialized_view_definition]):
+           [partition_key_path, partition_key_version, default_ttl, indexing_policy, unique_key_policy, client_encryption_policy, conflict_resolution_policy, analytical_storage_ttl, materialized_view_definition, full_text_policy]):
         return False
 
     if partition_key_path is not None:
@@ -1575,6 +1578,9 @@ def _populate_sql_container_definition(sql_container_resource,
     if materialized_view_definition is not None:
         sql_container_resource.materialized_view_definition = materialized_view_definition
 
+    if full_text_policy is not None:
+        sql_container_resource.full_text_policy = full_text_policy
+
     return True
 
 
@@ -1597,7 +1603,8 @@ def cli_cosmosdb_sql_container_update(client,
                                       default_ttl=None,
                                       indexing_policy=None,
                                       analytical_storage_ttl=None,
-                                      materialized_view_definition=None):
+                                      materialized_view_definition=None,
+                                      full_text_policy=None):
     """Updates an Azure Cosmos DB SQL container """
     logger.debug('reading SQL container')
     sql_container = client.get_sql_container(resource_group_name, account_name, database_name, container_name)
@@ -1609,6 +1616,7 @@ def cli_cosmosdb_sql_container_update(client,
     sql_container_resource.unique_key_policy = sql_container.resource.unique_key_policy
     sql_container_resource.conflict_resolution_policy = sql_container.resource.conflict_resolution_policy
     sql_container_resource.materialized_view_definition = materialized_view_definition
+    sql_container_resource.full_text_policy = sql_container.resource.full_text_policy
 
     # client encryption policy is immutable
     sql_container_resource.client_encryption_policy = sql_container.resource.client_encryption_policy
@@ -1622,7 +1630,8 @@ def cli_cosmosdb_sql_container_update(client,
                                           None,
                                           None,
                                           analytical_storage_ttl,
-                                          materialized_view_definition):
+                                          materialized_view_definition,
+                                          full_text_policy):
         logger.debug('replacing SQL container')
 
     sql_container_create_update_resource = SqlContainerCreateUpdateParameters(

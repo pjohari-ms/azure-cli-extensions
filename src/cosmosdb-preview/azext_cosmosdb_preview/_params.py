@@ -170,6 +170,13 @@ SQL_MATERIALIZEDVIEW_DEFINITION_EXAMPLE = """--materialized-view-definition -m '
     \"definition\": \"SELECT * FROM root r\"}'
 """
 
+SQL_FULL_TEXT_POLICY_EXAMPLE = """--full-text-policy '{
+    \"defaultLanguage\": \"en-US\",
+    \"package\": \"standard\",
+    \"defaultSpec\": {\"language\": \"en-US\", \"tokenizer\": \"word\", \"filters\": [\"lowercase\", \"stop\"]},
+    \"fullTextPaths\": [{\"path\": \"/description\", \"language\": \"en-US\", \"tokenizer\": \"word\", \"filters\": [\"lowercase\"]}]}'
+"""
+
 SQL_GREMLIN_INDEXING_POLICY_EXAMPLE = """--idx "{
     \\"indexingMode\\": \\"consistent\\",
     \\"automatic\\": true,
@@ -659,6 +666,7 @@ def load_arguments(self, _):
         c.argument('throughput', help='The throughput of SQL container (RU/s). Default value is 400. Omit this parameter if the database has shared throughput unless the container should have dedicated throughput.')
         c.argument('analytical_storage_ttl', options_list=['--analytical-storage-ttl', '-t'], type=int, help='Analytical TTL, when analytical storage is enabled.')
         c.argument('materialized_view_definition', options_list=['--materialized-view-definition', '-m'], type=shell_safe_json_parse, help='Materialized View Definition, you can enter it as a string or as a file, e.g., --materialized-view-definition @materializedview-definition-file.json or ' + SQL_MATERIALIZEDVIEW_DEFINITION_EXAMPLE)
+        c.argument('full_text_policy', options_list=['--full-text-policy'], type=shell_safe_json_parse, completer=FilesCompleter(), help='Full-text policy, supplied as inline JSON or a file, e.g., --full-text-policy @full-text-policy.json or ' + SQL_FULL_TEXT_POLICY_EXAMPLE)
 
     # Sql container partition merge
     database_name_type = CLIArgumentType(options_list=['--database-name', '-d'], help='Database name.')
