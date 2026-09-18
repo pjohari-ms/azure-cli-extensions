@@ -27,30 +27,21 @@ class CosmosDBEmbeddingSourceScenarioTest(ScenarioTest):
 
         self.cmd('cosmosdb create -g {rg} -n {account}')
         self.cmd('cosmosdb sql database create -g {rg} -a {account} -n {database}')
-        self.cmd(
+        container_create = self.cmd(
             'cosmosdb sql container create -g {rg} -a {account} -d {database} '
-            '-n {container} -p /partitionKey --vector-embeddings @{policy}',
-            checks=[
-                self.check(
-                    'resource.vectorEmbeddingPolicy.vectorEmbeddings[0].embeddingSource.authType',
-                    'Entra'),
-                self.check(
-                    'resource.vectorEmbeddingPolicy.vectorEmbeddings[0].embeddingSource.sourcePaths[0]',
-                    '/description'),
-            ])
-        self.cmd(
+            '-n {container} -p /partitionKey --vector-embeddings @{policy}').get_output_in_json()
+        embedding_source = container_create['resource']['vectorEmbeddingPolicy']['vectorEmbeddings'][0]['embeddingSource']
+        assert embedding_source['authType'] == 'Entra'
+        assert embedding_source['sourcePaths'][0] == '/description'
+
+        container_update = self.cmd(
             'cosmosdb sql container update -g {rg} -a {account} -d {database} '
-            '-n {container} --vector-embeddings @{policy}',
-            checks=[
-                self.check(
-                    'resource.vectorEmbeddingPolicy.vectorEmbeddings[0].embeddingSource.deploymentName',
-                    'text-embedding-3-small'),
-            ])
-        self.cmd(
-            'cosmosdb sql container show -g {rg} -a {account} -d {database} -n {container}',
-            checks=[
-                self.check(
-                    'resource.vectorEmbeddingPolicy.vectorEmbeddings[0].embeddingSource.modelName',
-                    'text-embedding-3-small'),
-            ],
-        )
+            '-n {container} --vector-embeddings @{policy}').get_output_in_json()
+        embedding_source = container_update['resource']['vectorEmbeddingPolicy']['vectorEmbeddings'][0]['embeddingSource']
+        assert embedding_source['deploymentName'] == 'text-embedding-3-small'
+
+        container_show = self.cmd(
+            'cosmosdb sql container show -g {rg} -a {account} -d {database} '
+            '-n {container}').get_output_in_json()
+        embedding_source = container_show['resource']['vectorEmbeddingPolicy']['vectorEmbeddings'][0]['embeddingSource']
+        assert embedding_source['modelName'] == 'text-embedding-3-small'
