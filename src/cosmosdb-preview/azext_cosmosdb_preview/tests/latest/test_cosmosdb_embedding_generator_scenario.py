@@ -21,6 +21,9 @@ class CosmosDBEmbeddingGeneratorScenarioTest(ScenarioTest):
             '--enable-embedding-generator true',
             checks=[self.check('enableEmbeddingGenerator', True)])
         self.cmd(
+            'cosmosdb update -g {rg} -n {account} --tags embeddingGenerator=enabled',
+            checks=[self.check('enableEmbeddingGenerator', True)])
+        self.cmd(
             'cosmosdb show -g {rg} -n {account}',
             checks=[self.check('enableEmbeddingGenerator', True)])
 
