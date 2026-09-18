@@ -4,6 +4,7 @@ Release History
 
 1.7.0
 ++++++
+* Add embedding source settings to ``--vector-embeddings`` for SQL container create and update commands.
 * Add ``--skip-safe-rotation`` to ``az cosmosdb keys regenerate`` to optionally bypass the account keys last usage check during key regeneration.
 * Add support for soft-deleted resource operations for SQL API
 * New command group `az cosmosdb softdeleted-account` to list, show, delete (purge), and recover soft-deleted accounts
