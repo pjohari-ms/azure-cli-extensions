@@ -899,7 +899,8 @@ def cli_cosmosdb_create(cmd,
                         enable_prpp_autoscale=None,
                         enable_partition_merge=None,
                         capacity_mode=None,
-                        disable_local_auth=None):
+                        disable_local_auth=None,
+                        enable_embedding_generator=None):
     """Create a new Azure Cosmos DB database account."""
 
     from azure.cli.core.commands.client_factory import get_mgmt_service_client
@@ -959,7 +960,8 @@ def cli_cosmosdb_create(cmd,
                                     enable_prpp_autoscale=enable_prpp_autoscale,
                                     enable_partition_merge=enable_partition_merge,
                                     capacity_mode=capacity_mode,
-                                    disable_local_auth=disable_local_auth)
+                                    disable_local_auth=disable_local_auth,
+                                    enable_embedding_generator=enable_embedding_generator)
 
 
 # pylint: disable=too-many-branches
@@ -997,7 +999,8 @@ def cli_cosmosdb_update(client,
                         enable_prpp_autoscale=None,
                         enable_partition_merge=None,
                         capacity_mode=None,
-                        soft_delete_configuration=None):
+                        soft_delete_configuration=None,
+                        enable_embedding_generator=None):
     """Update an existing Azure Cosmos DB database account. """
     existing = client.get(resource_group_name, account_name)
 
@@ -1091,7 +1094,8 @@ def cli_cosmosdb_update(client,
         enable_per_region_per_partition_autoscale=enable_prpp_autoscale,
         enable_partition_merge=enable_partition_merge,
         capacity_mode=capacity_mode,
-        soft_delete_configuration=soft_delete_configuration)
+        soft_delete_configuration=soft_delete_configuration,
+        enable_embedding_generator=enable_embedding_generator)
 
     async_docdb_update = client.begin_update(resource_group_name, account_name, params)
     docdb_account = async_docdb_update.result()
@@ -1247,7 +1251,8 @@ def _create_database_account(client,
                              disable_ttl=None,
                              enable_partition_merge=None,
                              capacity_mode=None,
-                             disable_local_auth=None):
+                             disable_local_auth=None,
+                             enable_embedding_generator=None):
     consistency_policy = None
     if default_consistency_level is not None:
         consistency_policy = ConsistencyPolicy(default_consistency_level=default_consistency_level,
@@ -1404,7 +1409,8 @@ def _create_database_account(client,
         enable_per_region_per_partition_autoscale=enable_prpp_autoscale,
         enable_partition_merge=enable_partition_merge,
         capacity_mode=capacity_mode,
-        disable_local_auth=disable_local_auth
+        disable_local_auth=disable_local_auth,
+        enable_embedding_generator=enable_embedding_generator
     )
 
     async_docdb_create = client.begin_create_or_update(resource_group_name, account_name, params)

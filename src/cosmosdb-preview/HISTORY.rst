@@ -4,6 +4,7 @@ Release History
 
 1.7.0
 ++++++
+* Add ``--enable-embedding-generator`` to ``az cosmosdb update`` to enable Integrated Embeddings on eligible API for NoSQL accounts.
 * Add ``--skip-safe-rotation`` to ``az cosmosdb keys regenerate`` to optionally bypass the account keys last usage check during key regeneration.
 * Add support for soft-deleted resource operations for SQL API
 * New command group `az cosmosdb softdeleted-account` to list, show, delete (purge), and recover soft-deleted accounts

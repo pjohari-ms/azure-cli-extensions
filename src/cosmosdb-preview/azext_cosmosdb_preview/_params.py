@@ -490,6 +490,7 @@ def load_arguments(self, _):
             c.argument('enable_prpp_autoscale', arg_type=get_three_state_flag(), help="Enable or disable PerRegionPerPartitionAutoscale.", is_preview=True)
             c.argument('enable_partition_merge', arg_type=get_three_state_flag(), help="Flag to enable partition merge on the account.")
             c.argument('capacity_mode', options_list=['--capacity-mode'], arg_type=get_enum_type(CapacityMode), help="CapacityMode of the account.", is_preview=True)
+            c.argument('enable_embedding_generator', options_list=['--enable-embedding-generator'], arg_type=get_three_state_flag(), help="Enable or disable the integrated embedding generator on the account.", is_preview=True)
 
     with self.argument_context('cosmosdb update') as c:
         c.argument('key_uri', help="The URI of the key vault", is_preview=True)
