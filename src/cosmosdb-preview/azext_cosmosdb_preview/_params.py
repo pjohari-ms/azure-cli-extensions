@@ -170,6 +170,12 @@ SQL_MATERIALIZEDVIEW_DEFINITION_EXAMPLE = """--materialized-view-definition -m '
     \"definition\": \"SELECT * FROM root r\"}'
 """
 
+SQL_VECTOR_EMBEDDING_POLICY_EXAMPLE = """--vector-embeddings '{
+    \"vectorEmbeddings\": [{
+        \"path\": \"/vector\", \"dataType\": \"float32\", \"dimensions\": 400, \"distanceFunction\": \"cosine\",
+        \"embeddingSource\": {\"sourcePaths\": [\"/description\"], \"endpoint\": \"https://myaccount.services.ai.azure.com\", \"deploymentName\": \"text-embedding-3-small\", \"modelName\": \"text-embedding-3-small\", \"authType\": \"Entra\"}}]}'
+"""
+
 SQL_GREMLIN_INDEXING_POLICY_EXAMPLE = """--idx "{
     \\"indexingMode\\": \\"consistent\\",
     \\"automatic\\": true,
@@ -659,6 +665,7 @@ def load_arguments(self, _):
         c.argument('throughput', help='The throughput of SQL container (RU/s). Default value is 400. Omit this parameter if the database has shared throughput unless the container should have dedicated throughput.')
         c.argument('analytical_storage_ttl', options_list=['--analytical-storage-ttl', '-t'], type=int, help='Analytical TTL, when analytical storage is enabled.')
         c.argument('materialized_view_definition', options_list=['--materialized-view-definition', '-m'], type=shell_safe_json_parse, help='Materialized View Definition, you can enter it as a string or as a file, e.g., --materialized-view-definition @materializedview-definition-file.json or ' + SQL_MATERIALIZEDVIEW_DEFINITION_EXAMPLE)
+        c.argument('vector_embedding_policy', options_list=['--vector-embeddings'], type=shell_safe_json_parse, completer=FilesCompleter(), help='Vector embedding policy, supplied as inline JSON or a file, e.g., --vector-embeddings @vector-embedding-policy.json or ' + SQL_VECTOR_EMBEDDING_POLICY_EXAMPLE)
 
     # Sql container partition merge
     database_name_type = CLIArgumentType(options_list=['--database-name', '-d'], help='Database name.')
