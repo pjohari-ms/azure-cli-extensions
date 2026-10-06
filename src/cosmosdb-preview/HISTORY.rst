@@ -2,10 +2,6 @@
 Release History
 ===============
 
-1.7.0
-+++++
-* Add ``--skip-account-keys-last-usage-check`` to ``az cosmosdb keys regenerate`` to optionally bypass the account keys last usage check during key regeneration.
-
 1.6.2
 * Added throughput bucketing.
 +++++++
